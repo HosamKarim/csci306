@@ -1,7 +1,7 @@
 
 public class NegativeBalanceException extends Exception {
 
-	private NegativeBalanceException(String message) {
+	public NegativeBalanceException(String message) {
 		super(message);
 	}
 

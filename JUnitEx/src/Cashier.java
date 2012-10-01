@@ -1,35 +1,51 @@
 
 public class Cashier {
 	
-	public Envelope makeChange(int numOfD, int numOfC){
-		Envelope env = new Envelope();
-		int qua;
-		int dim;
-		int ni;
+	private int qua;
+	private int dim;
+	private int ni;
+	private double totalEnv;
+	private double totalPrice;
+	private double diff;
+	
+	public Envelope makeChange(Envelope env, int numOfD, int numOfC) throws NegativeBalanceException{
+		Envelope newEnv = new Envelope();
 		
-		env.setDollars(numOfD);
+		totalEnv = env.getDollars() + env.getQuarter()/100*25 + env.getDimes()/100*10
+				+ env.getNickels()/100*5 + env.getPennies()/100; 
+		
+		totalPrice = numOfD + numOfC/100;
+		
+		diff = totalEnv - totalPrice;
+		
+		if (diff < 0) {
+			throw new NegativeBalanceException("Price exceeds envelope contents by" + Math.abs(diff) + "cents");
+		}
+		
+		newEnv.setDollars(env.getDollars() - numOfD);
 		
 		qua = (int)(numOfC/25);
-		env.setQuarter(qua);
+		newEnv.setQuarter(env.getQuarter() - qua);
 		numOfC -= qua*25;
 		
 		dim = (int)(numOfC/10);
-		env.setDimes(dim);
+		newEnv.setDimes(env.getDimes() - dim);
 		numOfC -= dim*10;
 		
 		ni = (int)(numOfC/5);
-		env.setNickels(ni);
+		newEnv.setNickels(env.getNickels() - ni);
 		numOfC -= ni*5;
 
-		env.setPennies(numOfC);
+		newEnv.setPennies(env.getPennies() - numOfC);
 		
-		return env; 
+		return newEnv; 
 	}
 	
-	//TEST
-	public static void main(String[] args) {
+	//~~~~~~TEST
+	public static void main(String[] args) throws NegativeBalanceException {
 		Cashier cc = new Cashier();
-		Envelope ee = cc.makeChange(222,68);
+		Envelope e = new Envelope(223,3,6,2,6);
+		Envelope ee = cc.makeChange(e,222,68);
 		
 		System.out.println(ee.getDollars());
 		System.out.println(ee.getQuarter());
