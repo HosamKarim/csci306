@@ -57,8 +57,17 @@ public class Envelope {
 		this.pennies = pennies;
 	}
 	
-	public  int getTotalCents(){
-		return 0;
+	public int getTotalCents(){
+		int total = this.getDollars()*100 + this.getQuarter()*25 + this.getDimes()*10
+				+ this.getNickels()*5 + this.getPennies();
+		return total;
+	}
+
+	@Override
+	public String toString() {
+		return "Envelope [dollars=" + dollars + ", quarter=" + quarter
+				+ ", dimes=" + dimes + ", nickels=" + nickels + ", pennies="
+				+ pennies + "]";
 	}
 	
 	
